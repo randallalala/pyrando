@@ -1,4 +1,12 @@
 import justpy as jp
+import pandas 
+from datetime import datetime 
+from pytz import vtc
+import matplotlib.pyplot as plt
+
+data = pandas.read_csv("reviews.csv", parse_dates=['Timestamp'])
+data['Day'] = data['Timestamp'].dt.date
+day_average = data.groupby(['Day']).mean()
 
 chart_def = """
 {
@@ -66,9 +74,11 @@ def app():
    h1 = jp.QDiv(a=wp, text="Analysis of course reviews" , classes="text-h3 text-centre q-pa-md")
    p1 = jp.QDiv(a=wp, text="these graphs presents course review analysis" )
    hc=  jp.HighCharts(a=wp, options=chart_def )
-   print(hc.options)
+   print(hc.options.title.text)
    print(type(hc.options))
-
+   hc.options.title.text = "Avg rating by day" 
+   # hc.options.series[0].data = [3,4,57,8,9]
+   hc.options.series[0].data = list(zip(day_average.index, day_average['Rating']))
    
    return wp
 
