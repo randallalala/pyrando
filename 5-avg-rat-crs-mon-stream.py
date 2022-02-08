@@ -335,7 +335,7 @@ def app():
    
    hc_data = [{"name":v1, "data":[v2 for v2 in month_average_crs[v1]]} for v1 in month_average_crs.columns]
    
-   hc.options.series = hc_data
+   hc.options.series = hc_data 
 
    return wp
 
